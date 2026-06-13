@@ -34,7 +34,7 @@ function LandingPage() {
     try {
       const res = await api.post('/api/auth/demo-login', { email: selectedEmail })
       localStorage.setItem('splitwise_demo_user', JSON.stringify(res.data))
-      navigate('/app')
+      window.location.href = '/app'
     } catch (e) {
       setError(e?.response?.data?.detail || 'Demo login failed')
     } finally {

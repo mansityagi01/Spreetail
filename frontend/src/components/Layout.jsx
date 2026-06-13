@@ -5,7 +5,7 @@ function Layout({ user, children }) {
 
   const onLogout = () => {
     localStorage.removeItem('splitwise_demo_user')
-    navigate('/')
+    window.location.href = '/'
   }
 
   return (
