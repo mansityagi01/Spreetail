@@ -1,0 +1,367 @@
+:root {
+  --bg: #f8f4eb;
+  --panel: #fffefb;
+  --ink: #22201c;
+  --muted: #6a645c;
+  --brand: #2d8b74;
+  --brand-2: #1f6f5d;
+  --line: #dfd7c8;
+  --danger: #b83838;
+  --ok: #22734b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 10%, #efe8da 0, transparent 35%),
+    radial-gradient(circle at 90% 0%, #e9f4f0 0, transparent 30%),
+    var(--bg);
+}
+
+a {
+  color: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.landing {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.hero {
+  background: linear-gradient(135deg, #fffefb 0%, #f4f0e6 100%);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 2.25rem;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  margin: 0 0 0.75rem;
+}
+
+.hero p {
+  color: var(--muted);
+  max-width: 760px;
+}
+
+.demo-login-box {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+  max-width: 520px;
+}
+
+.demo-login-box label {
+  font-weight: 600;
+}
+
+select,
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--brand-2);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.features {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.feature-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.feature-card h3 {
+  margin-top: 0;
+}
+
+.feature-card p {
+  color: var(--muted);
+}
+
+.error {
+  color: var(--danger);
+}
+
+.success-msg {
+  color: var(--ok);
+  margin: 0;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--line);
+  background: #fffefc;
+}
+
+.brand {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.content {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+  background: var(--panel);
+}
+
+.card-wide {
+  grid-column: span 2;
+}
+
+.card h2,
+.card h3 {
+  margin-top: 0;
+}
+
+.form-stack {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.inline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.group-list,
+.balance-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.group-list li,
+.balance-list li {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.group-list p,
+.balance-list span {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Error message styling */
+.error-msg {
+  color: var(--danger);
+  background: #fdf0f0;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  margin: 0.5rem 0;
+  font-size: 0.92rem;
+}
+
+/* Active nav link */
+.nav-links a.active {
+  color: var(--brand);
+  border-bottom: 2px solid var(--brand);
+  padding-bottom: 2px;
+}
+
+/* Checkbox group for split user selection */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 0;
+}
+
+.checkbox-group > label:first-of-type {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--brand);
+}
+
+/* Danger / delete small button */
+.btn-danger-sm {
+  background: var(--danger);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger-sm:hover {
+  background: #9a2e2e;
+}
+
+/* Action buttons row */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Chat timestamp */
+.chat-time {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 0.15rem;
+}
+
+/* 404 page */
+.not-found {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.not-found h1 {
+  font-size: 5rem;
+  color: var(--brand);
+  margin: 0;
+}
+
+.not-found p {
+  font-size: 1.25rem;
+  color: var(--muted);
+}
+
+.not-found a {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.not-found a:hover {
+  background: var(--brand-2);
+}
+
+@media (max-width: 920px) {
+  .features,
+  .dashboard-grid,
+  .inline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-wide {
+    grid-column: span 1;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+  }
+}
