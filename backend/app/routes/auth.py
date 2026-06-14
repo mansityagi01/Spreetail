@@ -10,9 +10,12 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 DEMO_USERS = [
     {"email": "mansi@splitwise.app", "name": "Mansi"},
     {"email": "hari@splitwise.app", "name": "Hari"},
-    {"email": "puja@splitwise.app", "name": "Puja"},
-    {"email": "siddh@splitwise.app", "name": "Siddh"},
-    {"email": "nigam@splitwise.app", "name": "Nigamasamhita"},
+    {"email": "aisha@splitwise.app", "name": "Aisha"},
+    {"email": "rohan@splitwise.app", "name": "Rohan"},
+    {"email": "priya@splitwise.app", "name": "Priya"},
+    {"email": "meera@splitwise.app", "name": "Meera"},
+    {"email": "dev@splitwise.app", "name": "Dev"},
+    {"email": "sam@splitwise.app", "name": "Sam"},
 ]
 
 

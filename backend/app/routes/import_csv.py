@@ -85,6 +85,14 @@ async def import_csv(file: UploadFile = File(...), user_id: int = 1, db: Session
         group = Group(name="Flatmates", description="Imported group")
         db.add(group)
         db.commit()
+    else:
+        # Prevent duplicates from multiple uploads by wiping previous flatmates data
+        db.query(ExpenseSplit).filter(ExpenseSplit.expense_id.in_(
+            db.query(Expense.id).filter(Expense.group_id == group.id)
+        )).delete(synchronize_session=False)
+        db.query(Expense).filter(Expense.group_id == group.id).delete(synchronize_session=False)
+        db.query(Settlement).filter(Settlement.group_id == group.id).delete(synchronize_session=False)
+        db.commit()
 
     # Pre-fetch users mapping
     users_db = db.query(User).all()
