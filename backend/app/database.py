@@ -8,7 +8,9 @@ vercel_url = os.getenv("POSTGRES_URL")
 if vercel_url and vercel_url.startswith("postgres://"):
     vercel_url = vercel_url.replace("postgres://", "postgresql://", 1)
 
-DATABASE_URL = vercel_url or os.getenv("DATABASE_URL", "sqlite:///./splitwise.db")
+# Determine SQLite fallback path based on environment
+sqlite_path = "sqlite:////tmp/splitwise.db" if os.getenv("VERCEL") == "1" else "sqlite:///./splitwise.db"
+DATABASE_URL = vercel_url or os.getenv("DATABASE_URL", sqlite_path)
 
 engine = create_engine(
     DATABASE_URL,
