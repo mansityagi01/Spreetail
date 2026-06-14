@@ -6,8 +6,8 @@ import os
 # Determine SQLite fallback path based on environment
 sqlite_path = "sqlite:////tmp/splitwise.db" if os.getenv("VERCEL") == "1" else "sqlite:///./splitwise.db"
 
-# Vercel/Neon provides POSTGRES_URL or DATABASE_URL
-raw_db_url = os.getenv("POSTGRES_URL") or os.getenv("DATABASE_URL") or sqlite_path
+# Vercel/Neon provides POSTGRES_URL, DATABASE_URL, or STORAGE_URL
+raw_db_url = os.getenv("POSTGRES_URL") or os.getenv("DATABASE_URL") or os.getenv("STORAGE_URL") or sqlite_path
 
 # SQLAlchemy needs postgresql:// instead of postgres://
 if raw_db_url.startswith("postgres://"):
