@@ -11,6 +11,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True)
     name = Column(String(255))
+    is_temporary = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationships
@@ -43,6 +44,7 @@ class GroupMember(Base):
     user_id = Column(Integer, ForeignKey("users.id"), index=True)
     is_active = Column(Boolean, default=True)  # Can be removed but retain read-only access
     joined_at = Column(DateTime, default=datetime.utcnow)
+    left_at = Column(DateTime, nullable=True)
 
     # Relationships
     group = relationship("Group", back_populates="members")
@@ -60,7 +62,10 @@ class Expense(Base):
     id = Column(Integer, primary_key=True, index=True)
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=True, index=True)
     payer_id = Column(Integer, ForeignKey("users.id"), index=True)
-    amount = Column(Float)  # In Indian Rupees
+    amount = Column(Float)  # In Indian Rupees (base currency)
+    currency = Column(String(10), default="INR")
+    exchange_rate = Column(Float, default=1.0)
+    original_amount = Column(Float, nullable=True)
     description = Column(Text)
     created_by = Column(Integer, ForeignKey("users.id"), index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -146,3 +151,26 @@ class Settlement(Base):
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=True, index=True)
     amount = Column(Float)  # Amount paid in INR
     created_at = Column(DateTime, default=datetime.utcnow)
+
+class ImportLog(Base):
+    __tablename__ = "import_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    filename = Column(String(255))
+    imported_by = Column(Integer, ForeignKey("users.id"), index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    anomalies = relationship("Anomaly", back_populates="import_log", cascade="all, delete-orphan")
+
+
+class Anomaly(Base):
+    __tablename__ = "anomalies"
+
+    id = Column(Integer, primary_key=True, index=True)
+    import_log_id = Column(Integer, ForeignKey("import_logs.id"), index=True)
+    row_number = Column(Integer)
+    issue_type = Column(String(100))
+    description = Column(Text)
+    action_taken = Column(Text)
+    
+    import_log = relationship("ImportLog", back_populates="anomalies")

@@ -5,6 +5,8 @@ import BalancesPage from './pages/BalancesPage'
 import GroupPage from './pages/GroupPage'
 import SettlementsPage from './pages/SettlementsPage'
 import ExpensePage from './pages/ExpensePage'
+import ImportPage from './pages/ImportPage'
+import BalanceBreakdownPage from './pages/BalanceBreakdownPage'
 import Layout from './components/Layout'
 
 function Protected({ children }) {
@@ -39,6 +41,26 @@ function AppRoutes() {
           <Protected>
             <Layout user={user}>
               <BalancesPage user={user} />
+            </Layout>
+          </Protected>
+        }
+      />
+      <Route
+        path="/app/balances/breakdown/:otherUserId"
+        element={
+          <Protected>
+            <Layout user={user}>
+              <BalanceBreakdownPage user={user} />
+            </Layout>
+          </Protected>
+        }
+      />
+      <Route
+        path="/app/import"
+        element={
+          <Protected>
+            <Layout user={user}>
+              <ImportPage user={user} />
             </Layout>
           </Protected>
         }

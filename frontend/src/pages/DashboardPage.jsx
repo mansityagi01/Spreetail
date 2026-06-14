@@ -12,6 +12,7 @@ function DashboardPage({ user }) {
     group_id: '',
     payer_id: '',
     amount: '',
+    currency: 'INR',
     description: '',
     split_type: 'equal',
     split_user_ids: [],
@@ -107,6 +108,8 @@ function DashboardPage({ user }) {
           group_id: expense.group_id ? Number(expense.group_id) : null,
           payer_id: Number(expense.payer_id),
           amount: Number(expense.amount),
+          currency: expense.currency,
+          exchange_rate: expense.currency === 'USD' ? 83.0 : 1.0,
           description: expense.description,
           expense_type: expense.group_id ? 'group' : 'direct_2person',
           splits,
@@ -119,6 +122,7 @@ function DashboardPage({ user }) {
         group_id: '',
         payer_id: '',
         amount: '',
+        currency: 'INR',
         description: '',
         split_type: 'equal',
         split_user_ids: [],
@@ -223,6 +227,13 @@ function DashboardPage({ user }) {
               onChange={(e) => setExpense((p) => ({ ...p, amount: e.target.value }))}
               required
             />
+            <select
+              value={expense.currency}
+              onChange={(e) => setExpense((p) => ({ ...p, currency: e.target.value }))}
+            >
+              <option value="INR">INR</option>
+              <option value="USD">USD</option>
+            </select>
           </div>
           <input
             placeholder="Description"

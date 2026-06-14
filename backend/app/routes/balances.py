@@ -166,3 +166,60 @@ def record_settlement(settlement: SettlementCreate, user_id: int, db: Session = 
     db.refresh(db_settlement)
     
     return SettlementResponse.from_orm(db_settlement)
+
+@router.get("/balances/breakdown")
+def get_balance_breakdown(user_id: int, other_user_id: int, db: Session = Depends(get_db)):
+    """Get itemized breakdown of expenses and settlements between two users"""
+    breakdown = []
+    
+    # 1. Expenses where user paid, other_user owes
+    expenses_user_paid = db.query(Expense).filter(Expense.payer_id == user_id, Expense.is_deleted == False).all()
+    for exp in expenses_user_paid:
+        for split in exp.splits:
+            if split.user_id == other_user_id and split.amount_owed > 0:
+                breakdown.append({
+                    "date": exp.created_at,
+                    "description": exp.description,
+                    "type": "expense",
+                    "action": "They owe you",
+                    "amount": round(split.amount_owed, 2)
+                })
+
+    # 2. Expenses where other_user paid, user owes
+    expenses_other_paid = db.query(Expense).filter(Expense.payer_id == other_user_id, Expense.is_deleted == False).all()
+    for exp in expenses_other_paid:
+        for split in exp.splits:
+            if split.user_id == user_id and split.amount_owed > 0:
+                breakdown.append({
+                    "date": exp.created_at,
+                    "description": exp.description,
+                    "type": "expense",
+                    "action": "You owe them",
+                    "amount": -round(split.amount_owed, 2)
+                })
+
+    # 3. Settlements user paid to other_user
+    settlements_user_paid = db.query(Settlement).filter(Settlement.from_user_id == user_id, Settlement.to_user_id == other_user_id).all()
+    for st in settlements_user_paid:
+        breakdown.append({
+            "date": st.created_at,
+            "description": "Settlement payment",
+            "type": "settlement",
+            "action": "You paid them",
+            "amount": round(st.amount, 2)
+        })
+
+    # 4. Settlements other_user paid to user
+    settlements_other_paid = db.query(Settlement).filter(Settlement.from_user_id == other_user_id, Settlement.to_user_id == user_id).all()
+    for st in settlements_other_paid:
+        breakdown.append({
+            "date": st.created_at,
+            "description": "Settlement payment",
+            "type": "settlement",
+            "action": "They paid you",
+            "amount": -round(st.amount, 2)
+        })
+
+    # Sort by date
+    breakdown.sort(key=lambda x: x["date"], reverse=True)
+    return breakdown

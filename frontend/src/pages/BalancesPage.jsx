@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import { Link } from 'react-router-dom'
 
 function BalancesPage({ user }) {
   const [balances, setBalances] = useState([])
@@ -24,8 +25,11 @@ function BalancesPage({ user }) {
       <ul className="balance-list">
         {balances.map((b) => (
           <li key={`${b.user_id}-${b.other_user_id}`}>
-            <strong>{b.other_user_name}</strong>
-            <span>{b.description}</span>
+            <div>
+              <strong>{b.other_user_name}</strong>
+              <p>{b.description}</p>
+            </div>
+            <Link to={`/app/balances/breakdown/${b.other_user_id}`} className="btn-secondary">View Breakdown</Link>
           </li>
         ))}
       </ul>

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 from app.database import engine, get_db, Base
-from app.routes import auth, users, groups, expenses, balances
+from app.routes import auth, users, groups, expenses, balances, import_csv
 from app.models import models
 
 # Create database tables
@@ -38,6 +38,7 @@ app.include_router(users.router)
 app.include_router(groups.router)
 app.include_router(expenses.router)
 app.include_router(balances.router)
+app.include_router(import_csv.router)
 
 
 @app.get("/")

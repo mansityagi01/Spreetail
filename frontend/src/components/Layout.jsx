@@ -16,6 +16,7 @@ function Layout({ user, children }) {
           <NavLink to="/app" end>Dashboard</NavLink>
           <NavLink to="/app/balances">Balances</NavLink>
           <NavLink to="/app/settlements">Settlements</NavLink>
+          <NavLink to="/app/import">Import Data</NavLink>
         </nav>
         <div className="user-box">
           <span>{user?.name}</span>

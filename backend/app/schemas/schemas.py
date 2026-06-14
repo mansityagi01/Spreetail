@@ -15,6 +15,7 @@ class UserCreate(UserBase):
 
 class UserResponse(UserBase):
     id: int
+    is_temporary: bool
     created_at: datetime
 
     class Config:
@@ -61,6 +62,7 @@ class GroupMemberResponse(BaseModel):
     user_id: int
     is_active: bool
     joined_at: datetime
+    left_at: Optional[datetime] = None
     user: Optional[UserResponse] = None
 
     class Config:
@@ -92,6 +94,9 @@ class ExpenseCreate(BaseModel):
     group_id: Optional[int] = None
     payer_id: int
     amount: float
+    currency: str = "INR"
+    exchange_rate: float = 1.0
+    original_amount: Optional[float] = None
     description: str
     expense_type: str  # "group" or "direct_2person"
     splits: List[ExpenseSplitCreate]
@@ -102,6 +107,9 @@ class ExpenseResponse(BaseModel):
     group_id: Optional[int]
     payer_id: int
     amount: float
+    currency: str
+    exchange_rate: float
+    original_amount: Optional[float]
     description: str
     created_by: int
     created_at: datetime
@@ -171,3 +179,19 @@ class DemoLoginResponse(BaseModel):
     email: str
     name: str
     message: str
+
+# Import Schemas
+class AnomalyResponse(BaseModel):
+    row_number: int
+    issue_type: str
+    description: str
+    action_taken: str
+
+    class Config:
+        from_attributes = True
+
+class ImportReportResponse(BaseModel):
+    filename: str
+    total_rows: int
+    imported_rows: int
+    anomalies: List[AnomalyResponse]
