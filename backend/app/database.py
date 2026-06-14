@@ -3,16 +3,17 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# MySQL connection string: mysql+pymysql://user:password@host:port/database
-# For local dev, we'll use SQLite first, then switch to MySQL when deployed
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
+# Vercel Postgres provides POSTGRES_URL. SQLAlchemy needs postgresql:// instead of postgres://
+vercel_url = os.getenv("POSTGRES_URL")
+if vercel_url and vercel_url.startswith("postgres://"):
+    vercel_url = vercel_url.replace("postgres://", "postgresql://", 1)
 
-# For MySQL, use: mysql+pymysql://root:password@localhost/splitwise_mvp
-# For now using SQLite for rapid local dev
+DATABASE_URL = vercel_url or os.getenv("DATABASE_URL", "sqlite:///./splitwise.db")
+
 engine = create_engine(
     DATABASE_URL,
     connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {},
-    echo=True  # Log all SQL queries
+    echo=False  # Disabled in production
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
