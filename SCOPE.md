@@ -34,3 +34,17 @@ Implemented the backend API (`/api/expenses/{id}/attachments`) and frontend comp
 
 ### 6. Interactive UX
 The app includes a fully integrated dashboard with real-time balance calculations, direct chat messaging per expense, and a dedicated CSV Import Wizard that displays a detailed anomaly detection report.
+
+## Database Schema
+
+We use a normalized SQL schema managed by SQLAlchemy. 
+
+- **users**: Core identity. `id`, `email`, `name`, `is_temporary` (for guests like Kabir).
+- **groups**: Represents shared contexts. `id`, `name`, `description`.
+- **group_members**: Links users to groups with a time-bound state. `group_id`, `user_id`, `joined_at`, `left_at` (used for detecting past memberships).
+- **expenses**: Core transactional record. `id`, `group_id`, `payer_id`, `amount`, `currency`, `original_amount`, `exchange_rate`, `expense_type` (group or direct_2person).
+- **expense_splits**: Records exactly how an expense is divided. `expense_id`, `user_id`, `split_type` (equal, unequal, percentage, shares), `split_value`, `amount_owed`.
+- **settlements**: Direct payments to clear debt. `from_user_id`, `to_user_id`, `amount`.
+- **expense_attachments**: File storage for receipts. `expense_id`, `file_name`, `file_data` (BLOB).
+- **expense_chats**: Threaded discussion per expense. `expense_id`, `user_id`, `message`.
+- **import_logs & anomalies**: Tracks the CSV ingestion results for accountability.

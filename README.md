@@ -67,7 +67,10 @@ The React app will automatically open at `http://localhost:5173`.
 4. **Settle Up**: Go to **Settlements** to log a payment and clear a debt.
 
 ## Project Deliverables
-For architectural decisions, scope details, and AI usage information, please see:
-- `SCOPE.md`
-- `DECISIONS.md`
-- `AI_USAGE.md`
+For architectural decisions, scope details, and AI usage information, please see the included markdown files.
+
+**AI Tool Used**: This project was developed alongside an advanced LLM coding assistant (Antigravity), which orchestrated backend boilerplate, generated the robust 15-case CSV regex parsing engine, and styled the frontend. 
+
+- `SCOPE.md`: Contains the exact data anomalies found in the CSV and the database schema.
+- `DECISIONS.md`: The log of major architectural and product decisions.
+- `AI_USAGE.md`: Detailed prompts and the 3 concrete cases where the AI got things wrong and had to be corrected.
