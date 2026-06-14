@@ -5,3 +5,4 @@ pymysql==1.2.0
 python-dotenv==1.2.2
 pydantic==2.13.4
 python-multipart
+psycopg2-binary
